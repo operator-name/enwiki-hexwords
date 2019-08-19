@@ -31,7 +31,7 @@ with open("words.txt", "wt") as words_txt:
             print(f"(written words, word_freq) = ({i}, {word_freq})", file=sys.stderr)
         words_txt.write(f"{word_freq[0]}, {word_freq[1]}\n")
 
-hex_word = re.compile("(for|o|i|l|s|t|g|a|b|c|d|e|f|0|1|2|3|4|5|6|7|8|9)*")
+hex_word = re.compile("(for|o|i|l|s|t|g|a|b|c|d|e|f|0|1|2|3|4|5|6|7|8|9|-|')*")
 hexwords = defaultdict(int)
 
 # create hexwords list
