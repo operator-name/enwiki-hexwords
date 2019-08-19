@@ -7,6 +7,7 @@ import sys
 line_trans = str.maketrans("–’", "-'")
 words_split_re = re.compile(r"[^\w\-\"]")
 is_word_re = re.compile(r"^\w.*\w$")
+number = re.compile("[0-9]*")
 
 words = set()
 
@@ -16,14 +17,14 @@ with open("enwiki-20190801-pages-articles.txt") as txt:
                 print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
                 continue
         for word in filter(None, words_split_re.split(line.translate(line_trans).lower())):
-            if is_word_re.match(word):
+            if is_word_re.match(word) and not number.fullmatch(word):
                 words.add(word)
                 
 print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
 
 # write in case
-with open("words.txt", "wt") as words_txt:
-    for i, word in enumerate(words):
+with open("words1.txt", "wt") as words_txt:
+    for i, word in enumerate(sorted(words)):
         if (i % 10000 == 0):
             print(f"(written lines, word) = ({i}, {word})", file=sys.stderr)
         words_txt.write("%s\n" % word)
@@ -45,13 +46,13 @@ hex_word = re.compile("[a-f0-9]*")
 hexwords = set()
 
 # create hexwords list
-with open("hexwords.txt", "wt") as hexwords_txt:
-    for word in words:
+with open("hexwords1.txt", "wt") as hexwords_txt:
+    for word in sorted(words):
         w = word
         for old, new in subs:
             w = str.replace(w, old, new)
         if hex_word.fullmatch(w):
             hexwords.add(word)
-            print(f"(found hexwords, hexword) = ({len(hexwords)}%s\t%s" % (word, w), file=sys.stderr)
+            print(f"(found hexwords, hexword) = ({len(hexwords)}, {word})", file=sys.stderr)
             print(f"{word}") # csv of word, hexword
             hexwords_txt.write(f"{word}\n")
