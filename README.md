@@ -14,4 +14,4 @@ Extract text:
 
 Collect data:
     
-    ./hexwords.py enwiki-20190801-pages-articles-multistream.xml.bz2
+    python3 -i hexwords.py 

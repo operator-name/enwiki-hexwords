@@ -4,7 +4,7 @@ import re
 import subprocess
 import sys
 
-line_trans = str.maketrans("–’", "-\"")
+line_trans = str.maketrans("–’", "-'")
 words_split_re = re.compile(r"[^\w\-\"]")
 is_word_re = re.compile(r"^\w.*\w$")
 
@@ -13,31 +13,31 @@ words = set()
 with open("enwiki-20190801-pages-articles.txt") as txt:
     for i, line in enumerate(txt):
         if line.startswith("<"): # wikiextractor puts files in xml tags
-				print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
-				continue
-		for word in filter(None, words_split_re.split(line.translate(line_trans).lower())):
-			if is_word_re.match(word):
-				words.add(word)
-				
+                print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
+                continue
+        for word in filter(None, words_split_re.split(line.translate(line_trans).lower())):
+            if is_word_re.match(word):
+                words.add(word)
+                
 print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
 
 # write in case
-with open("words.txt", "wt") as txt:
-	for i, word in enumerate(words):
-		if (i % 10000 == 0):
-			print(f"(written lines, word) = ({i}, {word})", file=sys.stderr)
-		txt.write("%s\n" % word)
+with open("words.txt", "wt") as words_txt:
+    for i, word in enumerate(words):
+        if (i % 10000 == 0):
+            print(f"(written lines, word) = ({i}, {word})", file=sys.stderr)
+        words_txt.write("%s\n" % word)
 
 subs = [
-	("ate", "8"),
-	("for", "4"),
-	
-	("o", "0"),
-	("i", "1"),
+    ("ate", "8"),
+    ("for", "4"),
+    
+    ("o", "0"),
+    ("i", "1"),
     ("l", "1"),
     ("s", "5"),
     ("t", "7"),
-	("g", "9"), # or 6 for capital
+    ("g", "9"), # or 6 for capital
 ]
 
 hex_word = re.compile("[a-f0-9]*")
@@ -45,13 +45,13 @@ hex_word = re.compile("[a-f0-9]*")
 hexwords = set()
 
 # create hexwords list
-with open("words.txt", "wt") as txt:
-	for word in words:
-		w = word
-		for old, new in subs:
-			w = string.replace(w, old, new)
-		if hex_word.fullmatch(w):
-			hexwords.add(word)
-			print(f"(found hexwords, hexword) = ({len(hexwords)}%s\t%s" % (word, w), file=sys.stderr)
-			print(f"{word}") # csv of word, hexword
-			txt.write(f"{word}\n")
+with open("hexwords.txt", "wt") as hexwords_txt:
+    for word in words:
+        w = word
+        for old, new in subs:
+            w = str.replace(w, old, new)
+        if hex_word.fullmatch(w):
+            hexwords.add(word)
+            print(f"(found hexwords, hexword) = ({len(hexwords)}%s\t%s" % (word, w), file=sys.stderr)
+            print(f"{word}") # csv of word, hexword
+            hexwords_txt.write(f"{word}\n")
