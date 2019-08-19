@@ -7,7 +7,7 @@ import sys
 line_trans = str.maketrans("–’", "-'")
 words_split_re = re.compile(r"[^\w\-\"]")
 is_word_re = re.compile(r"^\w.*\w$")
-number = re.compile("[0-9]*")
+number = re.compile("[0-9\-]*")
 
 words = set()
 
