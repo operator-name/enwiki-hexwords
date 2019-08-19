@@ -22,7 +22,7 @@ with open("enwiki-20190801-pages-articles.txt") as txt:
                 
 print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
 
-words_by_freq = sorted(words.items(), key=lambda t: (t[1], t[0]), reverse=True)
+words_by_freq = sorted(words.items(), key=lambda t: (-t[1], t[0]))
 
 # write in case something goes wrong
 with open("words.txt", "wt") as words_txt:
