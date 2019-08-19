@@ -22,7 +22,7 @@ with open("enwiki-20190801-pages-articles.txt") as txt:
                 
 print(f"(processed lines, processed words) = ({i}, {len(words)})", file=sys.stderr)
 
-# write in case
+# write in case something goes wrong
 with open("words1.txt", "wt") as words_txt:
     for i, word in enumerate(sorted(words)):
         if (i % 10000 == 0):
@@ -54,5 +54,4 @@ with open("hexwords1.txt", "wt") as hexwords_txt:
         if hex_word.fullmatch(w):
             hexwords.add(word)
             print(f"(found hexwords, hexword) = ({len(hexwords)}, {word})", file=sys.stderr)
-            print(f"{word}") # csv of word, hexword
             hexwords_txt.write(f"{word}\n")

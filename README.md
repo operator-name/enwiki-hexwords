@@ -1,3 +1,7 @@
+# What is this?
+
+An attempt to extract all words from Wikipedia and match those which can be used as hexwords. Unfortunatly the script isn't that smart so the data isn't that clean. Currently words are sorted alphanumerically.
+
 # Usage
 
 Install Git submodules:
@@ -15,3 +19,5 @@ Extract text:
 Collect data:
     
     python3 -i hexwords.py 
+
+This should create `words.txt` and `hexwords.txt`.
